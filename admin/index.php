@@ -1,11 +1,51 @@
-﻿<?php include 'inc/header.php';?>
-<?php include 'inc/sidebar.php';?>
-        <div class="grid_10">
-            <div class="box round first grid">
-                <h2> Dashbord</h2>
-                <div class="block">               
-                  Welcome admin panel        
-                </div>
-            </div>
-        </div>
-<?php include 'inc/footer.php';?>
+<?php include '../classes/Adminlogin.php'; ?>
+<?php 
+$al = new Adminlogin();
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+ $adminEmail = $_POST['adminEmail'];
+ $adminPass = md5($_POST['adminPass']);
+ $loginChk = $al->AdminLogin($adminEmail, $adminPass);
+
+}
+
+
+
+?>
+
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Admin Login</title>
+    <link rel="stylesheet" type="text/css" href="css/stylelogin.css" media="screen" />
+</head>
+<body>
+<div class="container">
+	<section id="content">
+		<form action="index.php" method="post">
+			<h1>Admin Login</h1>
+			<span style="color:red; font-size: 18px;">
+				<?php
+				if (isset($loginChk)) {
+					echo $loginChk;
+								}				
+				?>
+
+			</span>
+			<div>
+				<input type="text" placeholder="User Email" name="adminEmail"/>
+			</div>
+			<div>
+				<input type="password" placeholder="Password" name="adminPass"/>
+			</div>
+			<div>
+				<input type="submit" value="Log in" />
+			</div>
+		</form><!-- form -->
+		<div class="button">
+			<a href="https://www.facebook.com/SofTechiesBD/" target="__blank">SofTechiesBD</a>
+		</div><!-- button -->
+	</section><!-- content -->
+</div><!-- container -->
+</body>
+</html>
