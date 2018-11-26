@@ -178,5 +178,10 @@ class Product
 		$result = $this->db->select($query);
 		return $result;
 	}
+	public function getLatestIphone(){
+		$query = "SELECT * FROM tbl_product WHERE brandId = '3' ORDER BY productId DESC LIMIT 1";
+		$result = $this->db->select($query);
+		return $result;
+	}
 }
 ?>

@@ -3,18 +3,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$cartId = $_POST['cartId'];
 	$quantity = $_POST['quantity'];
 	$updateCart = $ct->updateCartQuantity($cartId, $quantity);
+	if ($quantity<=0) {
+		$delpd = $ct->delProductByCart($cartId);
+	}
+}
 ?>
-<?php 
-if (!isset($_GET['delproduct']) || $_GET['delproduct']==NULL) {
-		echo "<script>window.location = '404.php'; </script>";
-	}else{
-	$id = $_GET['delproduct'];
+<?php
+$pdid='';
+if (isset($_GET['pdid'])) {
+	$id = $_GET['pdid'];
     $pattern = '/[^-a-zA-Z0-9_]/';
     $replacement = '';
     $id = preg_replace($pattern, $replacement, $id);
 	$delpd = $ct->delProductByCart($id);
 }
-}
+
+?>
+<?php
+if (!isset($_GET['id'])) {
+ 	echo "<meta http-equiv='refesh' content='0;URL=?id=live' />";
+ } 
 ?>
 
 <div class="main">
@@ -65,13 +73,18 @@ if (!isset($_GET['delproduct']) || $_GET['delproduct']==NULL) {
 						echo "$".$total;
 						?>
 						</td>
-						<td><a onclick="return confirm('Are you sure to delete product!!')" href="?delproduct=<?php echo $result['cartId']; ?>">X</a></td>
+						<td><a onclick="return confirm('Are you sure to delete product!!')" href="?pdid=<?php echo $result['cartId']; ?>">X</a></td>
 					</tr>
 					<?php 
 					$sum = $sum+$total;
+					Session::set("sum", $sum);
 					?>
 					<?php } } ?>	
 				</table>
+				<?php 
+				$getData = $ct->checkCartTable();
+				if ($getData) {
+				?>
 				<table style="float:right;text-align:left;" width="40%">
 					<tr>
 						<th>Sub Total : </th>
@@ -96,6 +109,9 @@ if (!isset($_GET['delproduct']) || $_GET['delproduct']==NULL) {
 						</td>
 					</tr>
 				</table>
+			<?php }else{
+				header("location:index.php");
+			} ?>
 			</div>
 			<div class="shopping">
 				<div class="shopleft">

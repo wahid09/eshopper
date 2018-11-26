@@ -12,7 +12,17 @@
 			<div class="cart">
 				<a href="#" title="View my shopping cart" rel="nofollow">
 					<span class="cart_title">Cart</span>
-					<span class="no_product">(empty)</span>
+					<span class="no_product">
+						<?php
+						$getData = $ct->checkCartTable();
+						if ($getData) {
+						   	$sum = Session::get("sum");
+							echo "$".$sum;
+						}else{
+							echo "(empty)";
+						}
+						?>
+					</span>
 				</a>
 			</div>
 		</div>
